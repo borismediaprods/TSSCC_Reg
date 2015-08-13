@@ -13,4 +13,6 @@ are too lasy to put the '@' sign.
 Software was created on August 12, 2015 by Boris S.
 Please use it responsibly, don't spam it or anything of sorts.
 
+![Display] (https://scontent-ord1-1.xx.fbcdn.net/hphotos-xfp1/v/t35.0-12/11879657_404161113115584_382858041_o.jpg?oh=7b87637c45d75c6e7d7c6f0a3c27d5bb&oe=55CF95DB)
+
 ## Peace
