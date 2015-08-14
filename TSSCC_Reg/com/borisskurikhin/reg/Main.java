@@ -36,17 +36,18 @@ public class Main extends JFrame implements ActionListener {
 	 */
 
 	JButton submit;
+	static JTextField name_field = new JTextField("Enter your name!", 30);
 	JTextField field = new JTextField("Enter your e-mail address!", 30);
 	JLabel label = new JLabel("Register for 2015-2016 TSS Computer Club!", JTextField.CENTER);
 	GridBagConstraints constraints = new GridBagConstraints();
 	List<String> repeats = new ArrayList<String>();
-	static String message_body = "Insert Body Here";
+	static String message_body = "TO EDIT";
 
 	public Main(String windowTitle) {
 		super(windowTitle);
 		setLayout(new GridBagLayout());
 		setSize(500, 300);
-		
+
 		getContentPane().setBackground(new Color(44, 62, 80));
 		repaint();
 
@@ -65,14 +66,20 @@ public class Main extends JFrame implements ActionListener {
 		field.setBackground(new Color(52, 73, 94));
 		field.setForeground(new Color(236, 240, 241));
 
+		name_field.setHorizontalAlignment(JTextField.CENTER);
+		name_field.setFont(new Font("Lato", Font.PLAIN, 16));
+		name_field.setBackground(new Color(52, 73, 94));
+		name_field.setForeground(new Color(236, 240, 241));
+
 		add(label, constraints);
+		add(name_field, constraints);
 		add(field, constraints);
 		add(submit, constraints);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		
+
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}
@@ -84,7 +91,7 @@ public class Main extends JFrame implements ActionListener {
 	public static void sendMail(String address) {
 		try {
 			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com"); //using gmail ofcourse
+			props.put("mail.smtp.host", "smtp.gmail.com");
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.debug", "true");
 			props.put("mail.smtp.starttls.enable", "true");
@@ -103,8 +110,8 @@ public class Main extends JFrame implements ActionListener {
 			msg.setFrom(new InternetAddress("your@address.com"));
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
 			msg.setSentDate(new Date());
-			msg.setSubject("Thank you for registering for Thornhil Secondary Computer Club 2015-2016!\n\n");
-			msg.setText(message_body);
+			msg.setSubject("Thank you for registering for Thornhill Secondary Computer Club 2015-2016!\n\n");
+			msg.setText("Dear " + (name_field.getText().trim()) + ",\n" + message_body);
 			Transport.send(msg);
 		} catch (Exception E) {
 			System.out.println("Hmm, something went wrong.");
@@ -114,21 +121,23 @@ public class Main extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		/*
-		 * Little tricky algorithm to memorize people who registered for the site
-		 * add uniuqe address to the list, and then when a keyword address is typed
-		 * change the body of the message to everyone's e-mail address
-		*/
-		
+		 * Little tricky algorithm to memorize people who registered for the
+		 * site add uniuqe address to the list, and then when a keyword address
+		 * is typed change the body of the message to everyone's e-mail address
+		 */
+
 		if (field.getText().trim().contains("@") && !repeats.contains(field.getText().trim())) {
-			if(field.getText().trim().equals("your@address.com")){
+			if (field.getText().trim().equals("your@address.com")) {
 				String newString = "Here's a list of everyone who registered:\n\n";
-				for(String s : repeats) newString += s + "\n";
+				for (String s : repeats)
+					newString += s + "\n";
 				message_body = newString;
 			}
 			sendMail(field.getText().trim());
 			repeats.add(field.getText().trim());
-			message_body = "Insert Body Here";
+			message_body = "TO EDIT";
 		}
 		field.setText("Enter your e-mail address!");
+		name_field.setText("Enter your name!");
 	}
 }
